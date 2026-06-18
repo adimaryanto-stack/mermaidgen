@@ -9,6 +9,18 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false
+    sourcemap: false,
+    minify: 'terser',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'mermaid': ['mermaid'],
+          'react-vendors': ['react', 'react-dom'],
+        }
+      }
+    }
+  },
+  preview: {
+    port: 5173
   }
 })
