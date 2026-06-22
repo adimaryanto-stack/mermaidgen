@@ -69,6 +69,7 @@ Rules:
 3. Do NOT include any explanations, introduction, or concluding text.
 4. Ensure the syntax is compatible with Mermaid v11 (e.g., use "treeView-beta" with quotes for file trees, "radar-beta" with curly braces for radar charts, "packet-beta" with quotes for packet structures).
 5. Always start directly with the diagram type declaration (e.g., flowchart TD, sequenceDiagram, treeView-beta, etc.).
+6. ALWAYS wrap node/vertex text labels in double quotes if they contain spaces, parentheses, HTML tags (like <br/>), or special characters (like & or /). For example, use D{"Text (with parenthesis)"} or A["Text <br/> with break"] instead of D{Text (with parenthesis)} or A[Text <br/> with break].
 
 User request: "${prompt}"`
 
