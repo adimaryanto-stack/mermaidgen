@@ -1,103 +1,110 @@
-# MermaidGen - Mermaid Diagram Generator
+# MermaidGen 🎨🤖
 
-🎨 A web-based tool for creating, previewing, and exporting Mermaid diagrams in PNG, SVG, and clipboard formats.
+MermaidGen is a modern, high-performance web application designed to create, preview, export, and dynamically generate Mermaid.js diagrams. It integrates a real-time syntax-validating Code Editor with a powerful AI Diagram Generator powered by Google Gemini.
 
-## Features (Sprint 1 - Core)
+---
 
-✅ **Editor** - Write/paste Mermaid code with live syntax support
-✅ **Live Preview** - Diagram renders automatically as you type
-✅ **Download PNG** - Export high-resolution PNG files
-✅ **Download SVG** - Export vector SVG files
-✅ **Copy to Clipboard** - Paste directly into Word/Google Docs
-✅ **Template Library** - 6 ready-made diagram templates
-✅ **Dark/Light Mode** - Toggle between themes
-✅ **Responsive Design** - Works on desktop and mobile
+## 🚀 Key Features
 
-## Tech Stack
+* **📝 Real-time Code Editor**: Write and edit Mermaid code with instant rendering and built-in syntax validation.
+* **🤖 AI Diagram Generator**: Describe the diagram you want in natural language (e.g., *"Create a flowchart of a payment gateway session"*), and let Google Gemini generate the syntax for you.
+* **📋 Extensive Template Library**: 20+ pre-built, production-ready templates grouped by categories:
+  * **📊 Common**: Flowcharts, Flowchart Shapes, Sequence Diagrams, Class Diagrams, State Diagrams, Pie Charts.
+  * **🏗️ Architecture**: C4 Context, Entity Relationship (ERD), Packet Diagrams (`packet-beta`), Architecture Blueprints.
+  * **📅 Planning**: Gantt Charts, User Journeys, Timelines, Kanban Boards, Wardley Maps, Ishikawa (Fishbone) Diagrams.
+  * **🧬 Advanced**: XY Charts, Sankey Diagrams, Treemaps, Venn Diagrams, Mindmaps, Git Graphs, TreeViews, Radar Charts.
+* **💾 Multi-Format Exporting**:
+  * **Copy Image**: Render and copy diagram directly to clipboard as a PNG for easy pasting into Google Docs, Word, or Slack.
+  * **Download PNG**: Save high-resolution PNGs at a 2x pixel ratio.
+  * **Download SVG**: Export fully scalable vector graphics.
+* **🌓 Dual Themes**: Light and Dark mode options. The diagram theme dynamically updates (`default` vs `dark`) to match your workspace settings.
 
-- **React 18** + TypeScript + Vite
-- **Tailwind CSS** for styling
-- **Mermaid.js** for diagram rendering
-- **html-to-image** for PNG/SVG export
-- **Lucide React** for icons
+---
 
-## Getting Started
+## 🛠️ Tech Stack
+
+* **Frontend**: React 18 + TypeScript + Vite
+* **Styling**: Tailwind CSS
+* **Diagram Rendering**: Mermaid.js v11.15.0
+* **AI Model Integration**: Google Gemini API (`gemini-2.5-flash`)
+* **Export Engine**: `html-to-image`
+* **Icons**: `lucide-react`
+
+---
+
+## 🏁 Getting Started
 
 ### Prerequisites
 
-- Node.js 16+ and npm/yarn
+Ensure you have **Node.js 16+** and **npm** or **yarn** installed.
 
 ### Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/adimaryanto-stack/mermaidgen.git
-cd mermaidgen
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/adimaryanto-stack/mermaidgen.git
+   cd mermaidgen
+   ```
 
-# Install dependencies
-npm install
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-# Start development server
-npm run dev
-```
+3. **Configure Environment Variables (Optional)**:
+   Create a `.env.local` file in the root folder to pre-configure your Gemini API Key:
+   ```env
+   VITE_GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+   *Note: You can also set or change your API key directly inside the app's settings panel, which will persist it locally in your browser's local storage.*
 
-The app will open at `http://localhost:5173`
+4. **Launch the Development Server**:
+   ```bash
+   npm run dev
+   ```
+   The app will run at `http://localhost:5173`.
 
 ### Build for Production
 
+To create a optimized production build:
 ```bash
 npm run build
 ```
 
-## Usage
+---
 
-1. **Start with a template** or write your own Mermaid diagram code
-2. **See live preview** on the right side
-3. **Export** as PNG, SVG, or copy to clipboard
-4. **Paste** into Word, Google Docs, or other applications
+## 📁 Project Structure
 
-## Project Structure
-
-```
+```text
 mermaidgen/
 ├── src/
 │   ├── components/
-│   │   ├── Editor.tsx           # Code editor
-│   │   ├── Preview.tsx          # Live diagram preview
-│   │   ├── ExportButtons.tsx    # Export functionality
-│   │   └── TemplateSelector.tsx # Template dropdown
-│   ├── App.tsx                  # Main app component
-│   ├── main.tsx                 # React entry point
-│   └── index.css                # Global styles
+│   │   ├── Editor.tsx           # Hand-coded text editor panel
+│   │   ├── Preview.tsx          # Real-time diagram preview component
+│   │   ├── ExportButtons.tsx    # Clipboard copy, PNG, and SVG downloads
+│   │   ├── TemplateSelector.tsx # Categorized pre-built templates menu
+│   │   └── AIGenerator.tsx      # Gemini-powered natural language prompt tab
+│   ├── App.tsx                  # Application state, layout, and tab manager
+│   ├── main.tsx                 # Application entry point
+│   ├── index.css                # Global CSS stylesheet (Tailwind & core)
+│   └── App.css                  # Specific app layout styling
 ├── index.html
 ├── package.json
 ├── tailwind.config.js
 └── vite.config.ts
 ```
 
-## Sprint 2 & 3 Roadmap
+---
 
-**Sprint 2 - Enhancement**
-- Zoom & Pan controls
-- Better error messages
-- Export resolution options
-- Theme selector for diagrams
+## 🗺️ Future Enhancements
 
-**Sprint 3 - Polish**
-- Share links (URL-based persistence)
-- Diagram history/undo
-- Smooth preview animations
+* **Zoom & Pan Control**: Smooth mouse wheel zooming and click-and-drag panning inside the preview pane.
+* **Diagram Styling Overrides**: Select from specific Mermaid sub-themes (e.g. Forest, Neutral, Dark, Teal) separate from the app theme.
+* **Diagram Share Links**: Compress and serialize code states into base64 URLs for easy sharing.
+* **Local History Log**: Autosave recent edits locally to browse, load, or compare past versions.
 
-## Deployment
+---
 
-Deploy to **Vercel** with one click:
+## 📄 License & Attributions
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/adimaryanto-stack/mermaidgen)
-
-## License
-
-MIT
-
-## Support
-
-For issues or feature requests, please open an [issue](https://github.com/adimaryanto-stack/mermaidgen/issues) on GitHub.
+This project is licensed under the MIT License. Diagrams are powered by [Mermaid.js](https://mermaid.js.org/).
