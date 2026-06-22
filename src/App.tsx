@@ -99,9 +99,15 @@ function App() {
         </div>
       </div>
 
-      {/* Footer - Export Buttons */}
-      <footer className={`border-t ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-200'} px-6 py-4`}>
-        <ExportButtons previewElementId="mermaid-preview-container" isDark={isDark} />
+      {/* Footer - Export Buttons & Copyright */}
+      <footer className={`border-t ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-200'} px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4`}>
+        <div className="flex-1"></div>
+        <div className="flex-none">
+          <ExportButtons previewElementId="mermaid-preview-container" isDark={isDark} />
+        </div>
+        <div className={`flex-1 text-center md:text-right text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+          Diagrams powered by <a href="https://mermaid.js.org/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Mermaid.js</a>. Copyright © Mermaid.js Contributors.
+        </div>
       </footer>
     </div>
   )

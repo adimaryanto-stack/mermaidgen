@@ -7,11 +7,26 @@ interface TemplateSelectorProps {
 }
 
 const TEMPLATES = {
-  'Flowchart': `flowchart TD
+  'Flowchart (Basic)': `flowchart TD
     A[Start] --> B[Process]
     B --> C{Decision}
     C -->|Yes| D[End]
     C -->|No| B`,
+  'Flowchart Shapes (Mermaid.js)': `%% Flowchart Shapes Example
+%% Syntax Reference: https://mermaid.js.org/syntax/flowchart.html
+flowchart TD
+    sq[Square Shape] --> rd(Rounded Edge)
+    rd --> st([Stadium Shape])
+    st --> sub[[Subroutine Shape]]
+    sub --> cyl[(Database / Cylinder)]
+    cyl --> circ((Circle Shape))
+    circ --> asym>Asymmetric Shape]
+    asym --> rhomb{Decision / Rhombus}
+    rhomb --> hex{{Hexagon Shape}}
+    hex --> para1[/Parallelogram 1/]
+    para1 --> para2[\\Parallelogram 2\\]
+    para2 --> trap1[/Trapezoid 1\\]
+    trap1 --> trap2[\\Trapezoid 2/]`,
   'Sequence Diagram': `sequenceDiagram
     participant Alice
     participant Bob
