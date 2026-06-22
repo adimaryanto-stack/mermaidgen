@@ -79,10 +79,10 @@ flowchart TD
     ORDER ||--|{ LINE-ITEM : contains
     CUSTOMER }|..|{ DELIVERY-ADDRESS : uses`,
       'Packet Diagram': `packet-beta
-    0-15: Source Port
-    16-31: Destination Port
-    32-63: Sequence Number
-    64-95: Acknowledgment Number`,
+    0-15: "Source Port"
+    16-31: "Destination Port"
+    32-63: "Sequence Number"
+    64-95: "Acknowledgment Number"`,
       'Architecture Blueprint': `flowchart TD
     Client[Web/Mobile Client] --> GW[API Gateway]
     subgraph VPC [Amazon VPC]
@@ -162,13 +162,14 @@ flowchart TD
     Rent, Landlord, 1500
     Food, Groceries, 350
     Food, Dining Out, 150`,
-      'Treemap': `treemap
-    section Root
-      A, 10
-      B, 20
-    section Child
-      C, 5
-      D, 15`,
+      'Treemap': `treemap-beta
+    "Root":::container
+        "Group A"
+            "Sub-item 1": 10
+            "Sub-item 2": 20
+        "Group B"
+            "Sub-item 3": 15
+            "Sub-item 4": 5`,
       'Venn Diagram': `venn-beta
     title "Skills Overlap"
     set Design
@@ -185,23 +186,26 @@ flowchart TD
     Development
       Frontend
       Backend`,
-      'ZenUML': `zenuml
-    Alice->Bob: Hello Bob!
-    Bob-->Alice: Hi Alice!`,
-      'TreeView': `treeview
-    Root
-        Folder_A
-            File_1
-            File_2
-        Folder_B
-            File_3`,
-      'Radar Chart': `radar
-    title Performance Chart
-    axis Speed 0 100
-    axis Quality 0 100
-    axis Cost 0 100
-    data "Product A" 80 90 70
-    data "Product B" 60 70 90`
+      'GitGraph (Git)': `gitGraph
+    commit
+    branch hotfix
+    checkout hotfix
+    commit
+    checkout main
+    merge hotfix
+    commit`,
+      'TreeView': `treeView-beta
+    "Root"
+        "Folder_A"
+            "File_1"
+            "File_2"
+        "Folder_B"
+            "File_3"`,
+      'Radar Chart': `radar-beta
+    title "Performance Chart"
+    axis speed["Speed"], quality["Quality"], cost["Cost"]
+    curve productA["Product A"]{80, 90, 70}
+    curve productB["Product B"]{60, 70, 90}`
     }
   }
 ]
