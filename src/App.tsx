@@ -24,13 +24,27 @@ function App() {
   }, [isDark])
 
   useEffect(() => {
-    if (code.trim()) {
-      try {
-        mermaid.contentLoaded()
-        setError('')
-      } catch (err) {
-        setError('Invalid Mermaid syntax')
+    let active = true
+    const validateCode = async () => {
+      if (!code.trim()) {
+        if (active) setError('')
+        return
       }
+
+      try {
+        await mermaid.parse(code)
+        if (active) setError('')
+      } catch (err: any) {
+        if (active) {
+          setError(err?.message || 'Invalid Mermaid syntax')
+        }
+      }
+    }
+
+    validateCode()
+
+    return () => {
+      active = false
     }
   }, [code])
 
@@ -87,7 +101,7 @@ function App() {
 
       {/* Footer - Export Buttons */}
       <footer className={`border-t ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-200'} px-6 py-4`}>
-        <ExportButtons previewElementId="mermaid-preview" isDark={isDark} />
+        <ExportButtons previewElementId="mermaid-preview-container" isDark={isDark} />
       </footer>
     </div>
   )

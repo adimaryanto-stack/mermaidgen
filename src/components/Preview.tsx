@@ -10,23 +10,45 @@ const Preview: FC<PreviewProps> = ({ code, isDark }) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    let active = true
+
     const renderDiagram = async () => {
-      if (!containerRef.current || !code.trim()) return
+      if (!containerRef.current) return
+
+      if (!code.trim()) {
+        if (active) {
+          containerRef.current.innerHTML = `<div class="text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}">Enter Mermaid code to preview...</div>`
+        }
+        return
+      }
 
       try {
-        containerRef.current.innerHTML = ''
-        const { svg } = await mermaid.render('mermaid-preview', code)
-        if (containerRef.current) {
+        // Initialize mermaid with correct theme configuration before rendering
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: isDark ? 'dark' : 'default',
+          securityLevel: 'loose',
+        })
+
+        // Use a unique ID to avoid DOM conflict
+        const uniqueId = `mermaid-svg-${Math.random().toString(36).substring(2, 9)}`
+        const { svg } = await mermaid.render(uniqueId, code)
+
+        if (active && containerRef.current) {
           containerRef.current.innerHTML = svg
         }
       } catch (err) {
-        if (containerRef.current) {
+        if (active && containerRef.current) {
           containerRef.current.innerHTML = '<div class="text-red-500 text-center">Invalid diagram code</div>'
         }
       }
     }
 
     renderDiagram()
+
+    return () => {
+      active = false
+    }
   }, [code, isDark])
 
   return (
@@ -35,7 +57,7 @@ const Preview: FC<PreviewProps> = ({ code, isDark }) => {
         👁️ Preview
       </label>
       <div
-        id="mermaid-preview"
+        id="mermaid-preview-container"
         ref={containerRef}
         className={`flex-1 rounded-lg border p-4 overflow-auto flex items-center justify-center ${
           isDark

@@ -10,12 +10,19 @@ interface ExportButtonsProps {
 const ExportButtons: FC<ExportButtonsProps> = ({ previewElementId, isDark }) => {
   const exportPNG = async () => {
     try {
-      const element = document.getElementById(previewElementId)
-      if (!element) return
+      const container = document.getElementById(previewElementId)
+      if (!container) return
 
-      const png = await toPng(element, {
+      const svgElement = container.querySelector('svg')
+      if (!svgElement) {
+        alert('No diagram found to export')
+        return
+      }
+
+      const png = await toPng(svgElement as unknown as HTMLElement, {
         quality: 1,
         pixelRatio: 2,
+        backgroundColor: isDark ? '#1e293b' : '#ffffff',
       })
 
       const link = document.createElement('a')
@@ -30,14 +37,26 @@ const ExportButtons: FC<ExportButtonsProps> = ({ previewElementId, isDark }) => 
 
   const exportSVG = async () => {
     try {
-      const element = document.getElementById(previewElementId)
-      if (!element) return
+      const container = document.getElementById(previewElementId)
+      if (!container) return
 
-      const svg = await toSvg(element)
+      const svgElement = container.querySelector('svg')
+      if (!svgElement) {
+        alert('No diagram found to export')
+        return
+      }
+
+      const serializer = new XMLSerializer()
+      const svgString = serializer.serializeToString(svgElement)
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
+      const svgUrl = URL.createObjectURL(svgBlob)
+
       const link = document.createElement('a')
-      link.href = svg
+      link.href = svgUrl
       link.download = `diagram-${Date.now()}.svg`
       link.click()
+
+      URL.revokeObjectURL(svgUrl)
     } catch (err) {
       console.error('Error exporting SVG:', err)
       alert('Failed to export SVG')
@@ -46,12 +65,19 @@ const ExportButtons: FC<ExportButtonsProps> = ({ previewElementId, isDark }) => 
 
   const copyToClipboard = async () => {
     try {
-      const element = document.getElementById(previewElementId)
-      if (!element) return
+      const container = document.getElementById(previewElementId)
+      if (!container) return
 
-      const png = await toPng(element, {
+      const svgElement = container.querySelector('svg')
+      if (!svgElement) {
+        alert('No diagram found to copy')
+        return
+      }
+
+      const png = await toPng(svgElement as unknown as HTMLElement, {
         quality: 1,
         pixelRatio: 2,
+        backgroundColor: isDark ? '#1e293b' : '#ffffff',
       })
 
       const response = await fetch(png)
