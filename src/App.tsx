@@ -6,6 +6,7 @@ import Editor from './components/Editor'
 import Preview from './components/Preview'
 import ExportButtons from './components/ExportButtons'
 import TemplateSelector from './components/TemplateSelector'
+import AIGenerator from './components/AIGenerator'
 import './App.css'
 
 const defaultCode = `flowchart TD
@@ -18,6 +19,7 @@ function App() {
   const [code, setCode] = useState(defaultCode)
   const [isDark, setIsDark] = useState(false)
   const [error, setError] = useState('')
+  const [activeTab, setActiveTab] = useState<'editor' | 'ai'>('editor')
 
   useEffect(() => {
     mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default' })
@@ -84,13 +86,52 @@ function App() {
 
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Panel - Editor */}
+        {/* Left Panel - Tabbed Editor/AI Generator */}
         <div className={`w-1/2 flex flex-col border-r ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-gray-50 border-gray-200'} p-6 overflow-hidden`}>
-          <div className="mb-4">
-            <TemplateSelector onSelect={handleTemplate} isDark={isDark} />
+          {/* Tab Selector */}
+          <div className="flex border-b border-gray-200 dark:border-slate-700 mb-6 gap-2 shrink-0">
+            <button
+              onClick={() => setActiveTab('editor')}
+              className={`pb-2.5 px-4 font-semibold text-sm transition-all relative ${
+                activeTab === 'editor'
+                  ? 'text-blue-500 dark:text-blue-400 border-b-2 border-blue-500 dark:border-blue-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+              }`}
+            >
+              📝 Code Editor
+            </button>
+            <button
+              onClick={() => setActiveTab('ai')}
+              className={`pb-2.5 px-4 font-semibold text-sm transition-all relative ${
+                activeTab === 'ai'
+                  ? 'text-blue-500 dark:text-blue-400 border-b-2 border-blue-500 dark:border-blue-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+              }`}
+            >
+              🤖 AI Generator
+            </button>
           </div>
-          <Editor code={code} onChange={setCode} isDark={isDark} />
-          {error && <div className="mt-2 p-2 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
+
+          {activeTab === 'editor' ? (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <div className="mb-4 shrink-0">
+                <TemplateSelector onSelect={handleTemplate} isDark={isDark} />
+              </div>
+              <Editor code={code} onChange={setCode} isDark={isDark} />
+              {error && <div className="mt-2 p-2 bg-red-100 text-red-700 rounded text-sm shrink-0">{error}</div>}
+            </div>
+          ) : (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <AIGenerator
+                onGenerate={(newCode) => {
+                  setCode(newCode)
+                  setActiveTab('editor')
+                }}
+                isDark={isDark}
+              />
+              {error && <div className="mt-2 p-2 bg-red-100 text-red-700 rounded text-sm shrink-0">{error}</div>}
+            </div>
+          )}
         </div>
 
         {/* Right Panel - Preview */}
